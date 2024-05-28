@@ -2,7 +2,8 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import cors from 'cors';
 import { ping } from './controller/system.js';
-import { allUsers } from './lib/userinfo.js';
+import { allUsers, user, userById, deleteUser } from './lib/userinfo.js';
+import { setupSwagger } from './swagger.js';
 
 const serverPort = 3000;
 const app = express();
@@ -15,6 +16,10 @@ const router = express.Router();
 
 router.route('/ping').get(ping);
 router.route('/all-users').get(allUsers);
+router.route('/users').get(userById);
+router.route('/user').post(user);
+router.route('/user').delete(deleteUser);
 
 app.use('/socialLoginProject/api/v1', router);
+setupSwagger(app);
 app.listen(serverPort);
